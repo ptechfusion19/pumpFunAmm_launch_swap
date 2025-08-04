@@ -1,0 +1,19 @@
+{
+  "name": "pumpfun",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@pump-fun/pump-swap-sdk": "^1.3.0",
+    "@solana/web3.js": "^1.98.4",
+    "bn": "^1.0.5",
+    "bs58": "^4.0.1"
+  }
+}
