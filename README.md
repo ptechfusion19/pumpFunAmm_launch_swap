@@ -46,7 +46,7 @@ npm install
 
 #### 3. **Set Up Environment Variables**
 
-Copy the example.env file to .env:
+Copy the example.env file to .env and set the values of all parameters.
 
 #### 4. Run the Scripts
 
