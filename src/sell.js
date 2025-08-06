@@ -2,20 +2,24 @@ const {PumpAmmSdk, sellBaseInputInternal,PumpAmmInternalSdk } = require("@pump-f
 const { NATIVE_MINT } = require("@solana/spl-token");
 const { Connection, Keypair, PublicKey, Transaction,sendAndConfirmTransaction} = require("@solana/web3.js");
 const bs58 = require("bs58");
+const fs = require('fs');
 const { BN } = require("bn.js");
-const base = require("base-x");
+const config = require("../config/config");
 
-const RPC_URL = "https://devnet.helius-rpc.com/?api-key=";
-const secretKey = bs58.decode('');
+const rpc = config.rpcUrl;
+const secretKey = bs58.decode(config.walletPrivateKey);
 const owner = Keypair.fromSecretKey(secretKey);
 const ownerPubKey = owner.publicKey
 
-const connection = new Connection(RPC_URL)
+const connection = new Connection(rpc)
 const pumpAmmSdk = new PumpAmmSdk(connection);
 const pumpbuy = new PumpAmmInternalSdk(connection);
-const poolKey = new PublicKey('EBnXWcxAn8vBPNcaLUw4zdBpy5i96iDbDXWpCgcRu14d');
-const baseAmount = new BN('100000000')
-const slippage = 100;
+
+const poolData = JSON.parse(fs.readFileSync('./poolKey.json', 'utf8'));
+const poolKey = new PublicKey(poolData.poolKey); 
+
+const baseAmount = new BN(config.sellBaseAmount);
+const slippage = config.slippage;
 
 
 async function main() {
@@ -33,8 +37,6 @@ async function main() {
   const { base: sellQuoteAmount } = sellBaseInputInternal(
     baseAmount, slippage, baseReserve, quoteReserve, globalConfig, pool.creator
   );
-
-  console.log("Calculated sell Quote Output:", sellQuoteAmount);
 
  // make the swap instruction
   const swapInstructions = await pumpbuy.sellBaseInput(swapSolanaState, baseAmount, slippage);

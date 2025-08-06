@@ -2,19 +2,25 @@ const {PumpAmmSdk, buyBaseInputInternal,PumpAmmInternalSdk } = require("@pump-fu
 const { NATIVE_MINT } = require("@solana/spl-token");
 const { Connection, Keypair, PublicKey, Transaction,sendAndConfirmTransaction} = require("@solana/web3.js");
 const bs58 = require("bs58");
+const fs = require('fs');
 const { BN } = require("bn.js");
+const config = require ('../config/config')
 
-const RPC_URL = "https://devnet.helius-rpc.com/?api-key=";
-const secretKey = bs58.decode('');
+const rpc = config.rpcUrl;
+const secretKey = bs58.decode(config.walletPrivateKey);
 const owner = Keypair.fromSecretKey(secretKey);
-const ownerPubKey = owner.publicKey
+const ownerPubKey = owner.publicKey;
 
-const connection = new Connection(RPC_URL)
+const connection = new Connection(rpc);
 const pumpAmmSdk = new PumpAmmSdk(connection);
 const pumpbuy = new PumpAmmInternalSdk(connection);
-const poolKey = new PublicKey('EBnXWcxAn8vBPNcaLUw4zdBpy5i96iDbDXWpCgcRu14d');
-const baseAmount = new BN('10000000')
-const slippage = 2;
+
+const poolData = JSON.parse(fs.readFileSync('./poolKey.json', 'utf8'));
+const poolKey = new PublicKey(poolData.poolKey); 
+
+const baseAmount = new BN(config.buyBaseAmount);
+console.log(baseAmount);
+const slippage = config.slippage;
 
 
 async function main() {
