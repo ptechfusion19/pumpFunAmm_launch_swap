@@ -52,21 +52,20 @@ Copy the example.env file to .env:
 
 To create the PumpFun AMM:
 
-bash```
+```bash
 npm run createPool
 
-````
+```
+
 To perform a buy operation:
 
-bash```
+```bash
 npm run buy
-````
+```
 
 To perform a sell operation:
 
-bash```
+```bash
 npm run sell
-
-```
 
 ```
